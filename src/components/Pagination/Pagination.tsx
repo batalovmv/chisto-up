@@ -1,27 +1,33 @@
 import React from 'react';
-import styles from './SelectPageSize.module.scss';
+import styles from './Pagination.module.scss';
 
-type SelectPageSizeProps = {
-    options: number[];
-    selectedOption: number;
-    onSelect: (number: number) => void;
+type PaginationProps = {
+    currentPage: number;
+    totalPages: number;
+    onPageChange: (page: number) => void;
 };
 
-const SelectPageSize: React.FC<SelectPageSizeProps> = ({ options, selectedOption, onSelect }) => {
+const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, onPageChange }) => {
+    // Создание массива номеров страниц для рендеринга
+    const pages = Array.from({ length: totalPages }, (_, index) => index + 1);
+
     return (
-        <div className={styles.selectPageSize}>
-            <select
-                value={selectedOption}
-                onChange={(e) => onSelect(parseInt(e.target.value))}
-            >
-                {options.map((option) => (
-                    <option key={option} value={option}>
-                        Показать {option}
-                    </option>
-                ))}
-            </select>
+        <div className={styles.pagination}>
+            {/* Кнопки пагинации */}
+            {pages.map((page) => (
+                <button
+                    key={page}
+                    disabled={currentPage === page}
+                    onClick={() => onPageChange(page)}
+                >
+                    {page}
+                </button>
+            ))}
+            {currentPage < totalPages && (
+                <button onClick={() => onPageChange(currentPage + 1)}>→</button>
+            )}
         </div>
     );
 };
 
-export default SelectPageSize;
+export default Pagination;
