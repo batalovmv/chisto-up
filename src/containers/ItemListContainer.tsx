@@ -3,61 +3,58 @@ import ItemList from '../components/ItemList/ItemList';
 import Pagination from '../components/Pagination/Pagination';
 import SelectPageSize from '../components/SelectPageSize/SelectPageSize';
 import { useAppDispatch, useAppSelector } from '../app/store';
-import { useSelector } from 'react-redux';
-import { Item, ItemData, editItem, fetchItems, login, setPage, setPageSize } from '../app/list.slice';
+import {  fetchItems,  setPage, setPageSize } from '../app/list.slice';
 
 
 const ItemListContainer = () => {
     const dispatch = useAppDispatch();
-    const { data: items, loading, error, page: currentPage, pageSize, token, totalItems, } = useAppSelector((state) => state.list);
+    const { items, loading, error, page, pageSize } = useAppSelector((state) => state.list);
 
-    // Вычисляем общее количество страниц
-    const totalPages = Math.ceil(totalItems / pageSize);
+    useEffect(() => {
+        dispatch(fetchItems({
+            warehouseId: '6aac3263-ca1f-4b4e-8973-3a948873d9de',
+            page: page,
+            pageSize: pageSize,
+            token: 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTcxMjM1MDgwMH0.PYtv4lvnbN7L6Tt71oVN8xPuK_36OUikIFqp5KPi-t4fOObulnXUjx_CfxuvEH-50oFvzSisTvt8pcL4hzqIHA', 
+        }));
+    }, [dispatch, page, pageSize]);
 
-    // Функция для изменения размера страницы
     const handlePageSizeChange = (newPageSize: number) => {
         dispatch(setPageSize(newPageSize));
     };
 
-    // Функция для изменения текущей страницы
     const handlePageChange = (newPage: number) => {
         dispatch(setPage(newPage));
     };
+
+    // Заглушка функции showModalWithItemData, замените на вашу реализацию
+    const showModalWithItemData = (itemId: number) => {
+        console.log('Showing modal for item:', itemId);
+    };
+
     const openEditModal = (itemId: number) => {
-        // Логика для открытия модального окна с данными элемента
-        
         showModalWithItemData(itemId);
     };
 
-    useEffect(() => {
-        // Авторизация и сохранение токена в состоянии
-        dispatch(login());
-    }, []);
-    // Используем useEffect для загрузки данных при инициализации или изменении параметров пагинации
-    useEffect(() => {
-        dispatch(fetchItems({
-            warehouseId: '6aac3263-ca1f-4b4e-8973-3a948873d9de',
-            page: currentPage,
-            pageSize,
-            searchQuery: '',
-            sortOrder: 'asc'
-        }));
-    }, [ currentPage, pageSize]);
+    // Отображение загрузки или ошибки, если они есть
+    if (loading) return <div>Loading...</div>;
+ 
 
     return (
         <div>
             <ItemList items={items} onEdit={openEditModal} />
             <div>
                 <Pagination
-                    currentPage={currentPage}
-                    totalPages={totalPages}
-                    onPageChange={handlePageChange}
-                />
-                <SelectPageSize
-                    options={[5, 10, 20, 50]}
-                    selectedOption={pageSize}
-                    onSelect={handlePageSizeChange}
-                />
+                    currentPage={page}
+                    // totalPages должен быть получен от сервера или вычислен на основе общего количества элементов
+                    totalPages={Math.ceil(pageSize)}
+                    onPageChange = { handlePageChange }
+                        />
+                        <SelectPageSize
+                            options={[5, 10, 20, 50]}
+                            selectedOption={pageSize}
+                            onSelect={handlePageSizeChange}
+                        />
             </div>
         </div>
     );
