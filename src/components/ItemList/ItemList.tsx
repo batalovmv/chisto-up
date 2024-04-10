@@ -1,12 +1,7 @@
 import React from 'react';
 import styles from './ItemList.module.scss';
+import { Item } from '../../app/list.slice';
 
-type Item = {
-    id: number;
-    name: string;
-    unit: string;
-    sku: string;
-};
 
 
 type ItemListProps = {
@@ -15,6 +10,7 @@ type ItemListProps = {
 };
 
 const ItemList: React.FC<ItemListProps> = ({ items, onEdit }) => {
+    console.log(`items`, items);
     return (
         <div className={styles.itemList}>
             <table>
@@ -30,8 +26,8 @@ const ItemList: React.FC<ItemListProps> = ({ items, onEdit }) => {
                     {items.map((item) => (
                         <tr key={item.id}>
                             <td>{item.name}</td>
-                            <td>{item.unit}</td>
-                            <td>{item.sku}</td>
+                            <td>{item.measurement_units|| 'шт'}</td>
+                            <td>{item.code || 'нет кода'}</td>
                             <td>
                                 <button onClick={() => onEdit(item.id)}>✏️</button>
                             </td>

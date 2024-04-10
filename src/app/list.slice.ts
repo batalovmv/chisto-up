@@ -1,13 +1,21 @@
 
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
-
-interface Item {
+import { useDispatch } from 'react-redux';
+import { getToken, logout } from './auth.slice';
+export interface Item {
     id: number;
-    name: string;
-    unit: string;
-    sku: string;
-   
+    name: string | null;
+    description: string | null;
+    measurement_units: string | null;
+    deposit: string | null;
+    code: number | null; 
+    min_quantity: number | null; 
+    price: number;
+    rent_price: number | null; 
+    accounting_price: number;
+    type: string | null; 
+    custom_values: any[]; 
 }
 
 interface ItemState {
@@ -16,6 +24,7 @@ interface ItemState {
     error: string | null;
     page: number;
     pageSize: number;
+    totalItems:number
 }
 
 const initialState: ItemState = {
@@ -23,14 +32,18 @@ const initialState: ItemState = {
     loading: false,
     error: null,
     page: 1,
-    pageSize: 10
+    pageSize: 10,
+    totalItems: 0,
 };
 
 export const fetchItems = createAsyncThunk(
     'items/fetchItems',
-    async (arg: { warehouseId: string; page: number; pageSize: number; token: string; search?: string }, thunkAPI) => {
+    async (arg: { warehouseId: string; page: number; pageSize: number; token: string|null; search?: string }, { dispatch, rejectWithValue, getState }) => {
+        
         try {
+            console.log(`arg`, arg);
             const response = await axios.get(`/api/items`, {
+                
                 headers: { Authorization: arg.token },
                 params: {
                     warehouseId: arg.warehouseId,
@@ -39,9 +52,17 @@ export const fetchItems = createAsyncThunk(
                     search: arg.search || '',
                 },
             });
+           
             return response.data;
-        } catch (error) {
-            return thunkAPI.rejectWithValue('Unable to fetch items');
+        } catch (error) { //сделал автологин для удобства тестов , сессии короткие слишком
+            if (axios.isAxiosError(error) && error.response && error.response.status === 401) {
+                dispatch(logout()).then(() => {
+                    // Теперь, когда мы вышли, можно попытаться войти снова
+                    dispatch(getToken({ login: 'admin', password: 'admin' }));
+                });
+                return rejectWithValue('Token expired, user logged out.');
+            }
+            return rejectWithValue('Unable to fetch items');
         }
     }
 );
@@ -65,10 +86,8 @@ const itemSlice = createSlice({
             })
             .addCase(fetchItems.fulfilled, (state, action) => {
                 state.loading = false;
-                state.items = action.payload.items; // Присвоение полученных элементов состоянию
-                state.page = action.payload.page; // Обновление номера страницы, если она пришла от сервера
-                state.pageSize = action.payload.pageSize; // Обновление размера страницы, если он пришел от сервера
-                // Другие данные, если они возвращаются от сервера (например, общее количество элементов для пагинации), тоже можно обработать здесь
+                state.items = action.payload.result; 
+                state.totalItems = action.payload.total; 
             })
             .addCase(fetchItems.rejected, (state, action) => {
                 state.loading = false;

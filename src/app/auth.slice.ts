@@ -30,6 +30,10 @@ export const getToken = createAsyncThunk<string, Credentials, { rejectValue: str
         }
     }
 );
+export const logout = createAsyncThunk('auth/logout', async (_, { dispatch }) => {
+    localStorage.removeItem('auth_token'); // Удаляем токен из localStorage
+    return null;
+});
 
 
 const initialState: AuthState = {
@@ -61,7 +65,11 @@ const authSlice = createSlice({
                 state.loading = false;
                 state.error = action.payload; 
                 state.token = null; 
-            });
+            })
+            .addCase(logout.fulfilled, (state) => {
+                state.token = null;
+            })
+            
       
     },
 });
