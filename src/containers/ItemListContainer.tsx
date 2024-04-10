@@ -9,7 +9,7 @@ import useAuthToken from '../hooks/useAuthToken';
 
 const ItemListContainer = () => {
     const dispatch = useAppDispatch();
-    const { items, loading, error, page, pageSize } = useAppSelector((state) => state.list);
+    const { items, loading, error, page, pageSize,totalItems } = useAppSelector((state) => state.list);
     const { token } = useAppSelector((state) => state.auth);
     
     useEffect(() => {
@@ -25,6 +25,10 @@ const ItemListContainer = () => {
 
     const handlePageSizeChange = (newPageSize: number) => {
         dispatch(setPageSize(newPageSize));
+        
+            dispatch(setPage(1));//пока поставил всегда переходить на первую страницу
+        
+       
     };
 
     const handlePageChange = (newPage: number) => {
@@ -39,7 +43,7 @@ const ItemListContainer = () => {
     const openEditModal = (itemId: number) => {
         showModalWithItemData(itemId);
     };
-
+    const totalPages = Math.ceil(totalItems / pageSize);
     // Отображение загрузки или ошибки, если они есть
     if (loading) return <div>Loading...</div>;
  
@@ -51,7 +55,7 @@ const ItemListContainer = () => {
                 <Pagination
                     currentPage={page}
                     // totalPages должен быть получен от сервера или вычислен на основе общего количества элементов
-                    totalPages={Math.ceil(pageSize)}
+                    totalPages={totalPages}
                     onPageChange = { handlePageChange }
                         />
                         <SelectPageSize
