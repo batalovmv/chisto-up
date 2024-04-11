@@ -6,9 +6,9 @@
     height: 100%;
     display: flex;
     justify-content: flex-end; 
-    align-items: center; 
     z-index: 1000;
     animation: slideIn 0.3s ease-out; 
+    color: #352424;
 }
 
 @keyframes slideIn {
@@ -25,11 +25,31 @@
     position: relative;
     width: 50%;
     max-width: 400px;
-    background: #111;
-    padding: 20px;
+    background: #FFFFFF;
+    padding: 24px;
     border-radius: 5px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     z-index: 2;
+    h2{
+        font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            line-height: 22px;
+            font-weight: 600;
+            letter-spacing: -0.18px;
+    }
+    span{
+        
+            font-family: 'Inter', sans-serif;
+                font-size: 14px;
+                line-height: 20px;
+                font-weight: 400;
+                letter-spacing: -0.05px;
+                color: #8D8585;
+              
+    }
+    div{
+        margin-bottom: 16px;
+    }
 }
 
 .closeButton {
@@ -39,18 +59,25 @@
     background: transparent;
     border: none;
     cursor: pointer;
-    color: #fff;
+    
     font-size: 1.5rem;
 }
 
 
 
 .formGroup {
-    margin-bottom: 1rem;
+    margin-bottom: 16px;
 
     .label {
+        color: #111;
         display: block;
         margin-bottom: 0.5rem;
+        font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            line-height: 20px;
+            font-weight: 475;
+            letter-spacing: -0.05px;
+            color: #352424;
     }
 
     .input,
@@ -60,6 +87,8 @@
         font-size: 1rem;
         line-height: 1.5;
         border: 1px solid #ccc;
+        background-color: #FFFFFF;
+        color: #352424;
     }
 
     .textarea {
@@ -72,9 +101,24 @@
     display: flex;
     justify-content: space-between;
     padding-top: 10px;
+;
 }
-
+.closeButton{
+        color: #352424;
+}
 .cancelButton,
 .saveButton {
     flex-basis: 49%; 
+    font-family: 'Inter', sans-serif;
+        font-size: 14px;
+        line-height: 20px;
+        font-weight: 475;
+        letter-spacing: -0.05px;
+        color: #fff;
+}
+.cancelButton{
+    background-color: #514A4A;
+}
+.saveButton{
+    background-color: #A85757;
 }
