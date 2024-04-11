@@ -2,11 +2,18 @@
     button {
         color: #352424;
         border: 2px solid transparent;
+        margin-right: 12px;
+        width: 40px;
+        height: 40px;
+       
     }
 
     button:hover,
     button.active {
         border: 2px solid #A85757;
         color: #A85757;
+    }
+    .svg{
+        border: 1px solid #F2EEEE;
     }
 }

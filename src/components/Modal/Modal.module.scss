@@ -10,6 +10,18 @@
     animation: slideIn 0.3s ease-out; 
     color: #352424;
 }
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
 @keyframes slideIn {
     from {
@@ -30,6 +42,9 @@
     border-radius: 5px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     z-index: 2;
+    display: flex;
+        flex-direction: column;
+        justify-content: space-between;
     h2{
         font-family: 'Inter', sans-serif;
             font-size: 13px;
@@ -53,7 +68,6 @@
 }
 
 .closeButton {
-    position: absolute;
     top: 10px;
     right: 10px;
     background: transparent;
@@ -61,6 +75,21 @@
     cursor: pointer;
     
     font-size: 1.5rem;
+}
+.buttonsBar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 16px;
+}
+
+.homeButton {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 
@@ -82,13 +111,17 @@
 
     .input,
     .textarea {
-        width: 100%;
-        padding: 0.5rem;
+        width: calc(100% - 0.5rem);
+        padding: 0.5rem 0;
         font-size: 1rem;
+        padding-left: 0.5rem;
         line-height: 1.5;
         border: 1px solid #ccc;
         background-color: #FFFFFF;
         color: #352424;
+    }
+    .input{
+      
     }
 
     .textarea {
@@ -101,10 +134,18 @@
     display: flex;
     justify-content: space-between;
     padding-top: 10px;
+    margin-top: auto;
+    button{
+        padding: 0px 14px 0px 14px;
+        border-radius: 6px;
+        height: 40px;
+
+    }
 ;
 }
 .closeButton{
         color: #352424;
+
 }
 .cancelButton,
 .saveButton {

@@ -3,6 +3,7 @@ import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { getToken, logout } from './auth.slice';
+import { Item } from '../types';
 export interface ItemData {
     name: string;
     measurement_units: string;
@@ -13,13 +14,6 @@ export interface ItemData {
 
 export interface EditItemData extends ItemData {
     id: number;
-}
-export interface Item {
-    id: number;
-    name: string ;
-    description?: string ;
-    measurement_units?: string ;
-    code?: string ; 
 }
 
 interface ItemState {

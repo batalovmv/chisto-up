@@ -6,7 +6,7 @@ export const API_URL = import.meta.env.VITE_API_URL;
 // Создание экземпляра axios с базовыми настройками
 const api = axios.create({
     baseURL: API_URL,
-    // Другие глобальные настройки, если они вам нужны
+  
 });
 
 // Добавление интерцептора запроса

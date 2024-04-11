@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from './ItemList.module.scss';
-import { Item } from '../../app/list.slice';
+import { Item } from '../../types';
+import penSvg from '../../assets/pen.svg';
 
 
 
@@ -33,7 +34,7 @@ const ItemList: React.FC<ItemListProps> = ({ items, onEdit, onSort, sortBy, sort
                             <td>{item.measurement_units || 'шт'}</td>
                             <td>{item.code || 'нет кода'}</td>
                             <td>
-                                <button onClick={() => onEdit(item.id)}>✏️</button>
+                                <button onClick={() => onEdit(item.id)}><img src={penSvg} alt="edit" /></button>
                             </td>
                         </tr>
                     ))}

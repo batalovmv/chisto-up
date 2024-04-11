@@ -1,6 +1,8 @@
 import { ChangeEvent, FormEvent, useState } from "react";
-import { Item } from "../../app/list.slice";
 import styles from './Modal.module.scss';
+import { Item } from "../../types";
+import exitSvg from '../../assets/exit.svg';
+import homeSvg from '../../assets/home.svg';
 type ModalProps = {
     isOpen: boolean;
     onClose: () => void;
@@ -45,9 +47,14 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, item, onCreate, o
     };
 
     return (
+        <div className={styles.modalOverlay}>
         <div className={styles.modal}>
             <div className={styles.modalContent}>
-                <button onClick={onClose} className={styles.closeButton}>&times;</button>
+                    <div className={styles.buttonsBar}>
+                        <button className={styles.homeButton}><img src={homeSvg} alt="home" /></button>
+                        <button onClick={onClose} className={styles.closeButton}><img src={exitSvg} alt="exit" /></button>
+                </div>
+               
                 <div>
                     <h2 className={styles.header}>{item ? formData.name : 'Новая позиция '}</h2>
                     <span className={styles.headerTitle}>{item ? 'Заполните все поля для изменения номенклатуры' : 'Заполните все поля для создания новой номенклатуры '}</span>
@@ -111,6 +118,7 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, item, onCreate, o
                     <button type="submit" onClick={handleSubmit} className={styles.saveButton}>Подтвердить</button>
                 </div>
             </div>
+        </div>
         </div>
     );
 

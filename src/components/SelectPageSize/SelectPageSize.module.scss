@@ -1,3 +1,39 @@
 .selectPageSize {
-    /* стили для селектора размера страницы */
+    display: flex;
+    align-items: center;
+
+}
+
+.selectLabel {
+    margin-right: 8px;
+    color: #514A4A;
+    font-weight: 475;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: -0.05px;
+}
+
+.select {
+    height: 40px;
+    padding: 10px 40px 10px 16px;
+    /* Увеличьте правый паддинг, чтобы отодвинуть текст от стрелки */
+    border-radius: 6px;
+    -webkit-appearance: none;
+    /* Убираем стандартную стрелку в Webkit-браузерах */
+    -moz-appearance: none;
+    /* Убираем стандартную стрелку в Firefox */
+    appearance: none;
+    /* Скоро будет поддерживаться во всех браузерах, убирает стандартную стрелку */
+    background-image: url("data:image/svg+xml,%3Csvg width='12' height='7' viewBox='0 0 12 7' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L6.00081 5.58L11 1' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    /* Свой SVG для стрелки */
+    background-position: right 16px center;
+    /* Позиционирование SVG стрелки */
+    background-repeat: no-repeat;
+    background-size: 12px;
+    /* Размер вашей SVG стрелки */
+}
+
+
+.select::-ms-expand {
+    display: none;
 }

@@ -35,6 +35,15 @@
         td {
             height: 65px;
             border-bottom: 1px solid #F2EEEE;
+            button{
+                border: 1px solid #F2EEEE;
+                border-radius: 6px;
+                height: 32px;
+                width: 32px;
+                &:hover{
+                    border: 1px solid #352424;
+                }
+            }
         }
 
         th:last-child,

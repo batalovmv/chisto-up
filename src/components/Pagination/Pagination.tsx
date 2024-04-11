@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './Pagination.module.scss';
-
+import arrowSvg from '../../assets/arr.svg';
 type PaginationProps = {
     currentPage: number;
     totalPages: number;
@@ -23,7 +23,7 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, onPage
                 </button>
             ))}
             {currentPage < totalPages && (
-                <button onClick={() => onPageChange(currentPage + 1)}>→</button>
+                <button className={styles.svg} onClick={() => onPageChange(currentPage + 1)}> <img src={arrowSvg} alt="Next" /></button>
             )}
         </div>
     );

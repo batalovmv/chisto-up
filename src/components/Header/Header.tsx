@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import styles from './Header.module.scss';
+import plusSvg from '../../assets/plus.svg';
+import lupaSvg from '../../assets/lupa.svg';
 interface HeaderProps {
     title: string;
     itemCount: number;
@@ -20,7 +22,7 @@ const Header: React.FC<HeaderProps> = ({ title, itemCount, onSearch, onAddNewIte
                         type="text"
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        placeholder="Поиск..."
+                        placeholder="Поиск по названию"
                         className={styles.searchInput}
                     />
                     <button onClick={() => onSearch(searchTerm)} className={styles.searchButton}>
@@ -28,7 +30,7 @@ const Header: React.FC<HeaderProps> = ({ title, itemCount, onSearch, onAddNewIte
                     </button>
                 </div>
                 <button onClick={onAddNewItem} className={styles.addButton}>
-                    + Новая позиция
+                    <img src={plusSvg} alt="pen" /> Новая позиция
                 </button>
             </div>
         </header>
