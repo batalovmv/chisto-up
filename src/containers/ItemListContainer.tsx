@@ -3,16 +3,18 @@ import ItemList from '../components/ItemList/ItemList';
 import Pagination from '../components/Pagination/Pagination';
 import SelectPageSize from '../components/SelectPageSize/SelectPageSize';
 import { useAppDispatch, useAppSelector } from '../app/store';
-import {  fetchItems,  fetchItemsByName,  setPage, setPageSize,  setSortBy, setSortOrder } from '../app/list.slice';
+import {  Item, fetchItems,  fetchItemsByName,  setPage, setPageSize,  setSortBy, setSortOrder } from '../app/list.slice';
 import useAuthToken from '../hooks/useAuthToken';
 import Header from '../components/Header/Header';
+import { Modal } from '../components/Modal/Modal';
 
 
 const ItemListContainer = () => {
     const dispatch = useAppDispatch();
     const { items, loading, error, page, pageSize, totalItems, sortBy, sortOrder } = useAppSelector((state) => state.list);
     const { token } = useAppSelector((state) => state.auth);
-    
+    const [isModalOpen, setModalOpen] = useState(false);
+    const [currentItem, setCurrentItem] = useState<Item | null>(null);
     useEffect(() => {
         if (token) {
             dispatch(fetchItems({
@@ -43,14 +45,18 @@ const ItemListContainer = () => {
     };
 
     const openEditModal = (itemId: number) => {
-        showModalWithItemData(itemId);
+      
+        const item = items.find(item => item.id === itemId);
+        setCurrentItem(item || null); 
+        setModalOpen(true); 
     };
     const totalPages = Math.ceil(totalItems / pageSize);
     // Отображение загрузки или ошибки, если они есть
     if (loading) return <div>Loading...</div>;
     // Функция для добавления нового элемента
     const addNewItem = () => {
-        
+        setCurrentItem(null); // Clear current item for a new item form
+        setModalOpen(true); // Open the modal
     };
     const sortItems = (newSortBy: string) => {//посчитал что не нужно возвращаться к 1 странице при сортировке , но иногда добавляют обновление страницы до первой, тут по желанию
         const newSortOrder = sortBy === newSortBy && sortOrder === 'ASC' ? 'DESC' : 'ASC';
@@ -78,6 +84,7 @@ const ItemListContainer = () => {
     return (
         
         <div> 
+            <Modal isOpen={isModalOpen} onClose={() => setModalOpen(false)} item={currentItem} />
             <Header
                 title="Номенклатура"
                 itemCount={totalItems}

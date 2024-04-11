@@ -1,0 +1,60 @@
+.modal {
+    position: fixed; 
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    justify-content: right;  // Center the modal content vertically
+    z-index: 1000; // High z-index to ensure it is on top of other content
+
+
+   
+}
+
+.modalContent {
+    position: relative; // Allows for absolute positioning within this container
+    width: 50%; // Half the width of the viewport
+    max-width: 400px; // Maximum width of the modal content
+    background: #111;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 2;
+}
+
+.header {
+    // Your styles for the modal header
+}
+
+.formGroup {
+    margin-bottom: 1rem;
+
+    .label {
+        display: block;
+        margin-bottom: 0.5rem;
+    }
+
+    .input,
+    .textarea {
+        width: 100%;
+        padding: 0.5rem;
+        font-size: 1rem;
+        line-height: 1.5;
+        border: 1px solid #ccc;
+    }
+
+    .textarea {
+        height: 100px;
+        resize: vertical;
+    }
+}
+
+.saveButton {
+    // Your styles for the save button
+}
+
+.closeButton {
+    // Your styles for the close button
+}

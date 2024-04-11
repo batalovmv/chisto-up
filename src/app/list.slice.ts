@@ -8,7 +8,7 @@ export interface Item {
     name: string | null;
     description?: string | null;
     measurement_units?: string | null;
-    code?: number | null; 
+    code?: string | null; 
 }
 
 interface ItemState {
