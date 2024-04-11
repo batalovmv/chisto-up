@@ -6,16 +6,9 @@ import { getToken, logout } from './auth.slice';
 export interface Item {
     id: number;
     name: string | null;
-    description: string | null;
-    measurement_units: string | null;
-    deposit: string | null;
-    code: number | null; 
-    min_quantity: number | null; 
-    price: number;
-    rent_price: number | null; 
-    accounting_price: number;
-    type: string | null; 
-    custom_values: any[]; 
+    description?: string | null;
+    measurement_units?: string | null;
+    code?: number | null; 
 }
 
 interface ItemState {
@@ -24,7 +17,10 @@ interface ItemState {
     error: string | null;
     page: number;
     pageSize: number;
-    totalItems:number
+    totalItems:number;
+    searchTerm: string;
+    sortBy: string;
+    sortOrder: 'ASC' | 'DESC';
 }
 
 const initialState: ItemState = {
@@ -34,11 +30,14 @@ const initialState: ItemState = {
     page: 1,
     pageSize: 10,
     totalItems: 0,
+    searchTerm: '',
+    sortBy: 'name',
+    sortOrder: 'ASC',
 };
 
 export const fetchItems = createAsyncThunk(
     'items/fetchItems',
-    async (arg: { warehouseId: string; page: number; pageSize: number; token: string|null; search?: string }, { dispatch, rejectWithValue, getState }) => {
+    async (arg: { warehouseId: string; page: number; pageSize: number; token: string | null; search?: string; sortBy?: string; sortOrder?: 'ASC' | 'DESC' }, { dispatch, rejectWithValue, getState }) => {
         
         try {
             console.log(`arg`, arg);
@@ -50,6 +49,8 @@ export const fetchItems = createAsyncThunk(
                     page: arg.page,
                     pageSize: arg.pageSize,
                     search: arg.search || '',
+                    sortBy: arg.sortBy || 'name',
+                    sortOrder: arg.sortOrder || 'ASC',
                 },
             });
            
@@ -77,6 +78,15 @@ const itemSlice = createSlice({
         setPageSize(state, action: PayloadAction<number>) {
             state.pageSize = action.payload;
         },
+        setSearchTerm(state, action: PayloadAction<string>) {
+            state.searchTerm = action.payload;
+        },
+        setSortBy(state, action: PayloadAction<string>) {
+            state.sortBy = action.payload;
+        },
+        setSortOrder(state, action: PayloadAction<'ASC' | 'DESC'>) {
+            state.sortOrder = action.payload;
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -96,6 +106,6 @@ const itemSlice = createSlice({
     },
 });
 
-export const { setPage, setPageSize } = itemSlice.actions;
+export const { setPage, setPageSize, setSearchTerm, setSortBy, setSortOrder } = itemSlice.actions;
 
 export default itemSlice.reducer;

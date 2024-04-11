@@ -3,14 +3,14 @@ import ItemList from '../components/ItemList/ItemList';
 import Pagination from '../components/Pagination/Pagination';
 import SelectPageSize from '../components/SelectPageSize/SelectPageSize';
 import { useAppDispatch, useAppSelector } from '../app/store';
-import {  fetchItems,  setPage, setPageSize } from '../app/list.slice';
+import {  fetchItems,  setPage, setPageSize, setSearchTerm, setSortBy, setSortOrder } from '../app/list.slice';
 import useAuthToken from '../hooks/useAuthToken';
 import Header from '../components/Header/Header';
 
 
 const ItemListContainer = () => {
     const dispatch = useAppDispatch();
-    const { items, loading, error, page, pageSize,totalItems } = useAppSelector((state) => state.list);
+    const { items, loading, error, page, pageSize, totalItems, sortBy, sortOrder } = useAppSelector((state) => state.list);
     const { token } = useAppSelector((state) => state.auth);
     
     useEffect(() => {
@@ -51,10 +51,33 @@ const ItemListContainer = () => {
     const addNewItem = () => {
         
     };
+    const sortItems = (newSortBy: string) => {
+        const newSortOrder = sortBy === newSortBy && sortOrder === 'ASC' ? 'DESC' : 'ASC';
+        dispatch(setSortBy(newSortBy));
+        dispatch(setSortOrder(newSortOrder));
+        dispatch(fetchItems({
+            warehouseId: '6aac3263-ca1f-4b4e-8973-3a948873d9de',
+            page: page,
+            pageSize: pageSize,
+            token: token,
+            sortBy: newSortBy,
+            sortOrder: newSortOrder,
+        }));
+    };
 
     // Функция для поиска элементов
     const searchItems = (searchTerm: string) => {
-        // Реализовать поиск элементов
+        dispatch(setSearchTerm(searchTerm));
+        dispatch(setPage(1)); // Возвращаемся к первой странице результатов поиска
+        dispatch(fetchItems({
+            warehouseId: '6aac3263-ca1f-4b4e-8973-3a948873d9de',
+            page: page,
+            pageSize: pageSize,
+            token: token,
+            search: searchTerm,
+            sortBy: sortBy,
+            sortOrder: sortOrder,
+        }));
     };
 
     return (
@@ -66,7 +89,13 @@ const ItemListContainer = () => {
                 onSearch={searchItems}
                 onAddNewItem={addNewItem}
             />
-            <ItemList items={items} onEdit={openEditModal} />
+            <ItemList
+                items={items}
+                onEdit={openEditModal}
+                onSort={sortItems}
+                sortBy={sortBy}
+                sortOrder={sortOrder}
+            />
             <div>
                 <Pagination
                     currentPage={page}

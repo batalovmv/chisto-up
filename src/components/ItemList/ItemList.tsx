@@ -6,17 +6,22 @@ import { Item } from '../../app/list.slice';
 
 type ItemListProps = {
     items: Item[];
-    onEdit: (itemId: number) => void; 
+    onEdit: (itemId: number) => void;
+    onSort: (sortBy: string) => void;
+    sortBy: string;
+    sortOrder: 'ASC' | 'DESC';
 };
 
-const ItemList: React.FC<ItemListProps> = ({ items, onEdit }) => {
+const ItemList: React.FC<ItemListProps> = ({ items, onEdit, onSort, sortBy, sortOrder }) => {
     console.log(`items`, items);
     return (
         <div className={styles.itemList}>
             <table>
                 <thead>
                     <tr>
-                        <th>Название</th>
+                        <th onClick={() => onSort('name')}>
+                            Название {sortBy === 'name' ? (sortOrder === 'ASC' ? '▲' : '▼') : ''}
+                        </th>
                         <th>Единица измерения</th>
                         <th>Артикул</th>
                         <th>Действия</th>
