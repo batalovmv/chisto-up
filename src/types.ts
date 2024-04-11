@@ -15,3 +15,14 @@ export interface FetchItemsPayload {
     sortBy?: string;
     sortOrder?: "ASC" | "DESC" | undefined;
 }
+export interface ItemData {
+    name: string;
+    measurement_units: string;
+    code: string;
+    description: string;
+    token: string;
+}
+
+export interface EditItemData extends ItemData {
+    id: number;
+}

@@ -4,7 +4,6 @@ import styles from './ItemModal.module.scss';
 type ItemModalProps = {
     isOpen: boolean;
     onClose: () => void;
-    // Остальные пропсы, которые могут понадобиться
 };
 
 const ItemModal: React.FC<ItemModalProps> = ({ isOpen, onClose }) => {

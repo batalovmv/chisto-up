@@ -1,20 +1,9 @@
 
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { useDispatch } from 'react-redux';
 import { getToken, logout } from './auth.slice';
-import { Item } from '../types';
-export interface ItemData {
-    name: string;
-    measurement_units: string;
-    code: string;
-    description: string;
-    token: string;
-}
+import { EditItemData, Item, ItemData } from '../types';
 
-export interface EditItemData extends ItemData {
-    id: number;
-}
 
 interface ItemState {
     items: Item[];
@@ -54,7 +43,7 @@ export const fetchItems = createAsyncThunk(
 
         
         try {
-            console.log(`arg`, arg);
+          
             const response = await axios.get(`/api/items`, {
                 
                 headers: { Authorization: arg.token },
@@ -72,7 +61,6 @@ export const fetchItems = createAsyncThunk(
         } catch (error) { //сделал автологин для удобства тестов , сессии короткие слишком
             if (axios.isAxiosError(error) && error.response && error.response.status === 401) {
                 dispatch(logout()).then(() => {
-                    // Теперь, когда мы вышли, можно попытаться войти снова
                     dispatch(getToken({ login: 'admin', password: 'admin' }));
                 });
                 return rejectWithValue('Token expired, user logged out.');
@@ -110,7 +98,6 @@ export const editItem = createAsyncThunk(
             });
             return response.data;
         } catch (error: any) {
-            // It's better to use a more specific error type, like AxiosError from 'axios'
             return rejectWithValue(error.response?.data?.message || 'Unable to edit item');
         }
     }

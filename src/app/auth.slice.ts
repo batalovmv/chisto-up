@@ -31,7 +31,7 @@ export const getToken = createAsyncThunk<string, Credentials, { rejectValue: str
     }
 );
 export const logout = createAsyncThunk('auth/logout', async (_, { dispatch }) => {
-    localStorage.removeItem('auth_token'); // Удаляем токен из localStorage
+    localStorage.removeItem('auth_token');
     return null;
 });
 
@@ -40,7 +40,6 @@ const initialState: AuthState = {
     token: null,
     loading: false,
     error: null,
-    // Дополнительные поля для состояния items, если они есть
 };
 
 const authSlice = createSlice({
@@ -59,7 +58,7 @@ const authSlice = createSlice({
             })
             .addCase(getToken.fulfilled, (state, action) => {
                 state.loading = false;
-                state.token = action.payload; // Сохраняем токен в состоянии
+                state.token = action.payload; 
             })
             .addCase(getToken.rejected, (state, action) => {
                 state.loading = false;

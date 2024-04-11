@@ -1,10 +1,6 @@
 import { useEffect, useState } from 'react';
 import ItemList from '../components/ItemList/ItemList';
-import Pagination from '../components/Pagination/Pagination';
-import SelectPageSize from '../components/SelectPageSize/SelectPageSize';
-import { useAppDispatch, useAppSelector } from '../app/store';
-import {  fetchItems, setSearchTerm, setPage, setPageSize,  setSortBy, setSortOrder, createItem, editItem, ItemData, EditItemData } from '../app/list.slice';
-import useAuthToken from '../hooks/useAuthToken';
+import {  useAppSelector } from '../app/store';
 import Header from '../components/Header/Header';
 import { Modal } from '../components/Modal/Modal';
 import LoadingSpinner from '../components/LoadingSpinner/LoadingSpinner';
@@ -15,10 +11,9 @@ import PaginationBar from '../components/PaginationBar/PaginationBar';
 
 
 const ItemListContainer = () => {
-    const dispatch = useAppDispatch();
     const warehouseId = '6aac3263-ca1f-4b4e-8973-3a948873d9de';
 
-    const { items, loading, error, sortBy, sortOrder, itemName } = useAppSelector((state) => state.list);
+    const { items, loading, sortBy, sortOrder, itemName } = useAppSelector((state) => state.list);
     const { token } = useAppSelector((state) => state.auth);
     const totalItems = useAppSelector((state) => state.list.totalItems);
     const [isModalOpen, setModalOpen] = useState(false);
