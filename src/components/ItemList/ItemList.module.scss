@@ -1,3 +1,56 @@
 .itemList {
-    /* стили для списка товаров */
+    width: 100%;
+    color: #352424;
+    margin-left: 12px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 400;
+    letter-spacing: -0.01px;
+
+    table {
+        width: 100%;
+        table-layout: fixed;
+
+        th,
+        td {
+            text-align: left;
+            padding: 0 24px;
+        }
+
+        th {
+            background-color: #F6F4F4;
+            height: 44px;
+            color: #514A4A;
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            line-height: 16px;
+            font-weight: 600;
+            letter-spacing: -0.02px;
+        }
+
+        td {
+            height: 65px;
+            border-bottom: 1px solid #F2EEEE;
+        }
+
+        th:last-child,
+        td:last-child {
+            width: 5%;
+            padding-left: 24px;
+            padding-right: 24px;
+        }
+
+        // Если есть необходимость установить ширину для других колонок, делаем это здесь
+        th:not(:last-child),
+        td:not(:last-child) {
+            width: calc((100% - 5% - 2 * 24px) / 3);
+        }
+
+        
+        td:first-child {
+            padding-left: 24px;
+            padding-right: 24px;
+        }
+    }
 }

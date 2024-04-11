@@ -1,22 +1,30 @@
 .modal {
-    position: fixed; 
+    position: fixed;
     top: 0;
     right: 0;
     width: 100%;
     height: 100%;
-
     display: flex;
-    justify-content: right;  // Center the modal content vertically
-    z-index: 1000; // High z-index to ensure it is on top of other content
+    justify-content: flex-end; 
+    align-items: center; 
+    z-index: 1000;
+    animation: slideIn 0.3s ease-out; 
+}
 
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+    }
 
-   
+    to {
+        transform: translateX(0);
+    }
 }
 
 .modalContent {
-    position: relative; // Allows for absolute positioning within this container
-    width: 50%; // Half the width of the viewport
-    max-width: 400px; // Maximum width of the modal content
+    position: relative;
+    width: 50%;
+    max-width: 400px;
     background: #111;
     padding: 20px;
     border-radius: 5px;
@@ -24,9 +32,18 @@
     z-index: 2;
 }
 
-.header {
-    // Your styles for the modal header
+.closeButton {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: #fff;
+    font-size: 1.5rem;
 }
+
+
 
 .formGroup {
     margin-bottom: 1rem;
@@ -51,10 +68,13 @@
     }
 }
 
-.saveButton {
-    // Your styles for the save button
+.buttonGroup {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 10px;
 }
 
-.closeButton {
-    // Your styles for the close button
+.cancelButton,
+.saveButton {
+    flex-basis: 49%; 
 }

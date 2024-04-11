@@ -12,7 +12,7 @@ const Header: React.FC<HeaderProps> = ({ title, itemCount, onSearch, onAddNewIte
     return (
         <header className={styles.header}>
             <div className={styles.left}>
-                <h1>{title} ({itemCount})</h1>
+                <h1>{title} <span>{itemCount} единиц</span></h1>
             </div>
             <div className={styles.right}>
                 <div className={styles.searchContainer}>

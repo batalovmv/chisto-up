@@ -49,6 +49,7 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, item }) => {
     return (
         <div className={styles.modal}>
             <div className={styles.modalContent}>
+                <button onClick={onClose} className={styles.closeButton}>&times;</button>
                 <h2 className={styles.header}>{item ? formData.name : 'новая позиция'}</h2>
                 <form onSubmit={handleSubmit}>
 
@@ -103,7 +104,10 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, item }) => {
 
                     <button type="submit" className={styles.saveButton}>Save</button>
                 </form>
-                <button onClick={onClose} className={styles.closeButton}>Close</button>
+                <div className={styles.buttonGroup}>
+                    <button type="button" onClick={onClose} className={styles.cancelButton}>Cancel</button>
+                    <button type="submit" className={styles.saveButton}>Confirm</button>
+                </div>
             </div>
         </div>
     );

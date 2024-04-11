@@ -38,7 +38,7 @@ const ItemListContainer = () => {
         dispatch(setPage(newPage));
     };
 
-    // Заглушка функции showModalWithItemData, замените на вашу реализацию
+   
     const showModalWithItemData = (itemId: number) => {
         console.log('Showing modal for item:', itemId);
        console.log(`items`, items);
@@ -51,12 +51,12 @@ const ItemListContainer = () => {
         setModalOpen(true); 
     };
     const totalPages = Math.ceil(totalItems / pageSize);
-    // Отображение загрузки или ошибки, если они есть
+
     if (loading) return <div>Loading...</div>;
-    // Функция для добавления нового элемента
+
     const addNewItem = () => {
-        setCurrentItem(null); // Clear current item for a new item form
-        setModalOpen(true); // Open the modal
+        setCurrentItem(null); 
+        setModalOpen(true); 
     };
     const sortItems = (newSortBy: string) => {//посчитал что не нужно возвращаться к 1 странице при сортировке , но иногда добавляют обновление страницы до первой, тут по желанию
         const newSortOrder = sortBy === newSortBy && sortOrder === 'ASC' ? 'DESC' : 'ASC';

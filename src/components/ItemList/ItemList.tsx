@@ -13,7 +13,6 @@ type ItemListProps = {
 };
 
 const ItemList: React.FC<ItemListProps> = ({ items, onEdit, onSort, sortBy, sortOrder }) => {
-    console.log(`items`, items);
     return (
         <div className={styles.itemList}>
             <table>
@@ -23,15 +22,15 @@ const ItemList: React.FC<ItemListProps> = ({ items, onEdit, onSort, sortBy, sort
                             Название {sortBy === 'name' ? (sortOrder === 'ASC' ? '▲' : '▼') : ''}
                         </th>
                         <th>Единица измерения</th>
-                        <th>Артикул</th>
-                        <th>Действия</th>
+                        <th>Артикул/код</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     {items.map((item) => (
                         <tr key={item.id}>
                             <td>{item.name}</td>
-                            <td>{item.measurement_units|| 'шт'}</td>
+                            <td>{item.measurement_units || 'шт'}</td>
                             <td>{item.code || 'нет кода'}</td>
                             <td>
                                 <button onClick={() => onEdit(item.id)}>✏️</button>

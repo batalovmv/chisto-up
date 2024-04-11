@@ -3,13 +3,15 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-family: 'Inter', sans-serif; // Использование шрифта Inter
+    font-family: 'Inter', sans-serif;
+    padding: 24px 20px 44px 20px;
 }
 
 .left,
 .right {
     display: flex;
     align-items: center;
+    height: 40px;
 }
 .left {
 
@@ -23,10 +25,21 @@
         letter-spacing: -0.03em;
         text-align: left;
         color: #352424;
+        span {
+            height: 24px;
+            background-color: #A85757;
+            color: #FFF;
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            line-height: 16px;
+            font-weight: 475;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
     }
 
     .itemCount {
-        font-size: 0.8em; // Меньший размер для количества элементов
+        font-size: 0.8em; 
     }
 }
 
@@ -38,17 +51,25 @@
 .searchContainer {
     position: relative;
     margin-right: 1rem;
+    height: 100%;
 }
 
 .searchInput {
     padding: 0.5rem;
-    padding-left: 2.5rem; // Сделать место для иконки лупы
+    padding-left: 2.5rem;
+    /* Space for the magnifying glass icon */
     border: 1px solid #ccc;
-    border-radius: 4px;
+    /* Outer border to maintain consistent dimensions */
+    border-radius: 4px 0 0 4px;
+    height: 100%;
     outline: none;
     font-family: 'Inter', sans-serif;
+    box-sizing: border-box;
+  color: #352424;
+   
 
     // Добавление иконки лупы внутри поля ввода
+    background-color: #fff;
     background-image: url('path-to-your-search-icon.svg');
     background-repeat: no-repeat;
     background-position: 0.5rem center;
@@ -57,27 +78,37 @@
 
 .searchButton {
     border: none;
-    background-color: #007bff;
+    background-color: #514A4A;
+    font-weight: 475;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: -0.05px;
     color: white;
+    height: 100%;
     padding: 0.5rem 1rem;
     margin-left: -1px; // Визуальное соединение кнопки с инпутом
     border-radius: 0 4px 4px 0;
     cursor: pointer;
     outline: none;
-
+    
     &:hover {
         background-color: #0056b3;
     }
 }
 
 .addButton {
-    background-color: #28a745;
-    color: white;
+    background-color: #A85757;
+    color: #FFFFFF;
     border: none;
-    padding: 0.5rem 1rem;
+    padding: 0 14px;
+    height: 100%;
     border-radius: 4px;
     cursor: pointer;
     outline: none;
+    font-weight: 475;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: -0.05px;
 
     &:hover {
         background-color: #218838;
