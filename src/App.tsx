@@ -10,7 +10,7 @@ function App() {
     <>
           <HashRouter>
               <div className="App">
-              <Header />
+             
               <Routes>
                   <Route path="/" element={<HomePage />} />
                   {/* Другие маршруты */}

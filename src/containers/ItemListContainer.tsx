@@ -5,6 +5,7 @@ import SelectPageSize from '../components/SelectPageSize/SelectPageSize';
 import { useAppDispatch, useAppSelector } from '../app/store';
 import {  fetchItems,  setPage, setPageSize } from '../app/list.slice';
 import useAuthToken from '../hooks/useAuthToken';
+import Header from '../components/Header/Header';
 
 
 const ItemListContainer = () => {
@@ -46,15 +47,29 @@ const ItemListContainer = () => {
     const totalPages = Math.ceil(totalItems / pageSize);
     // Отображение загрузки или ошибки, если они есть
     if (loading) return <div>Loading...</div>;
- 
+    // Функция для добавления нового элемента
+    const addNewItem = () => {
+        
+    };
+
+    // Функция для поиска элементов
+    const searchItems = (searchTerm: string) => {
+        // Реализовать поиск элементов
+    };
 
     return (
-        <div>
+        
+        <div> 
+            <Header
+                title="Номенклатура"
+                itemCount={totalItems}
+                onSearch={searchItems}
+                onAddNewItem={addNewItem}
+            />
             <ItemList items={items} onEdit={openEditModal} />
             <div>
                 <Pagination
                     currentPage={page}
-                    // totalPages должен быть получен от сервера или вычислен на основе общего количества элементов
                     totalPages={totalPages}
                     onPageChange = { handlePageChange }
                         />

@@ -1,3 +1,85 @@
+
 .header {
-    /* стили для хедера */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Inter', sans-serif; // Использование шрифта Inter
+}
+
+.left,
+.right {
+    display: flex;
+    align-items: center;
+}
+.left {
+
+    /* Стили для левой части шапки */
+    h1 {
+        margin: 0;
+        font-family: Inter;
+        font-size: 32px;
+        font-weight: 600;
+        line-height: 38.4px;
+        letter-spacing: -0.03em;
+        text-align: left;
+        color: #352424;
+    }
+
+    .itemCount {
+        font-size: 0.8em; // Меньший размер для количества элементов
+    }
+}
+
+.itemCount {
+    font-weight: normal;
+    margin-left: 0.5rem;
+}
+
+.searchContainer {
+    position: relative;
+    margin-right: 1rem;
+}
+
+.searchInput {
+    padding: 0.5rem;
+    padding-left: 2.5rem; // Сделать место для иконки лупы
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    outline: none;
+    font-family: 'Inter', sans-serif;
+
+    // Добавление иконки лупы внутри поля ввода
+    background-image: url('path-to-your-search-icon.svg');
+    background-repeat: no-repeat;
+    background-position: 0.5rem center;
+    background-size: 1.5rem; // Размер иконки
+}
+
+.searchButton {
+    border: none;
+    background-color: #007bff;
+    color: white;
+    padding: 0.5rem 1rem;
+    margin-left: -1px; // Визуальное соединение кнопки с инпутом
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+    outline: none;
+
+    &:hover {
+        background-color: #0056b3;
+    }
+}
+
+.addButton {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    outline: none;
+
+    &:hover {
+        background-color: #218838;
+    }
 }
