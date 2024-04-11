@@ -18,7 +18,7 @@ interface ItemState {
     page: number;
     pageSize: number;
     totalItems:number;
-    searchTerm: string;
+    itemName: string;
     sortBy: string;
     sortOrder: 'ASC' | 'DESC';
 }
@@ -30,14 +30,23 @@ const initialState: ItemState = {
     page: 1,
     pageSize: 10,
     totalItems: 0,
-    searchTerm: '',
+    itemName: '',
     sortBy: 'name',
     sortOrder: 'ASC',
 };
 
 export const fetchItems = createAsyncThunk(
     'items/fetchItems',
-    async (arg: { warehouseId: string; page: number; pageSize: number; token: string | null; sortBy?: string; sortOrder?: 'ASC' | 'DESC' }, { dispatch, rejectWithValue, getState }) => {
+    async (arg: {
+        warehouseId: string;
+        page: number;
+        pageSize: number;
+        token: string | null;
+        sortBy?: string;
+        sortOrder?: 'ASC' | 'DESC';
+        itemName?: string; 
+    }, { dispatch, rejectWithValue, getState }) => {
+
         
         try {
             console.log(`arg`, arg);
@@ -49,7 +58,8 @@ export const fetchItems = createAsyncThunk(
                     page: arg.page,
                     pageSize: arg.pageSize,
                     sortBy: arg.sortBy || 'name',
-                    sortOrder: arg.sortOrder || 'ASC'
+                    sortOrder: arg.sortOrder || 'ASC',
+                    itemName: arg.itemName || '',
                 },
             });
            
@@ -58,38 +68,6 @@ export const fetchItems = createAsyncThunk(
             if (axios.isAxiosError(error) && error.response && error.response.status === 401) {
                 dispatch(logout()).then(() => {
                     // Теперь, когда мы вышли, можно попытаться войти снова
-                    dispatch(getToken({ login: 'admin', password: 'admin' }));
-                });
-                return rejectWithValue('Token expired, user logged out.');
-            }
-            return rejectWithValue('Unable to fetch items');
-        }
-    }
-);
-export const fetchItemsByName = createAsyncThunk(
-    'items/fetchItemsByName', // Unique identifier for this thunk
-    async (arg: { searchTerm: string; token: string | null; }, { dispatch, rejectWithValue }) => {
-        try {
-            console.log(`arg`, arg);
-            const response = await axios.get(`/api/items`, {
-                headers: { Authorization: arg.token },
-                params: {
-                    pageSize: 10000, // Fetch all items, assuming 10,000 is your max limit
-                },
-            });
-
-           
-            const filteredItems = response.data.result.filter((item: Item) =>
-                item.name && item.name.toLowerCase().includes(arg.searchTerm.toLowerCase())
-            );
-
-            return {
-                result: filteredItems,
-                total: filteredItems.length,
-            };
-        } catch (error) {
-            if (axios.isAxiosError(error) && error.response && error.response.status === 401) {
-                dispatch(logout()).then(() => {
                     dispatch(getToken({ login: 'admin', password: 'admin' }));
                 });
                 return rejectWithValue('Token expired, user logged out.');
@@ -115,6 +93,9 @@ const itemSlice = createSlice({
         setSortOrder(state, action: PayloadAction<'ASC' | 'DESC'>) {
             state.sortOrder = action.payload;
         },
+        setSearchTerm(state, action: PayloadAction<string>) {
+            state.itemName = action.payload;
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -135,6 +116,6 @@ const itemSlice = createSlice({
     },
 });
 
-export const { setPage, setPageSize, setSortBy, setSortOrder } = itemSlice.actions;
+export const { setPage, setPageSize, setSortBy, setSortOrder, setSearchTerm } = itemSlice.actions;
 
 export default itemSlice.reducer;

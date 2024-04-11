@@ -8,15 +8,14 @@ type PaginationProps = {
 };
 
 const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, onPageChange }) => {
-    // Создание массива номеров страниц для рендеринга
     const pages = Array.from({ length: totalPages }, (_, index) => index + 1);
 
     return (
         <div className={styles.pagination}>
-            {/* Кнопки пагинации */}
             {pages.map((page) => (
                 <button
                     key={page}
+                    className={currentPage === page ? styles.active : ''}
                     disabled={currentPage === page}
                     onClick={() => onPageChange(page)}
                 >

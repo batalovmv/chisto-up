@@ -3,7 +3,7 @@ import ItemList from '../components/ItemList/ItemList';
 import Pagination from '../components/Pagination/Pagination';
 import SelectPageSize from '../components/SelectPageSize/SelectPageSize';
 import { useAppDispatch, useAppSelector } from '../app/store';
-import {  Item, fetchItems,  fetchItemsByName,  setPage, setPageSize,  setSortBy, setSortOrder } from '../app/list.slice';
+import { Item, fetchItems, setSearchTerm, setPage, setPageSize,  setSortBy, setSortOrder } from '../app/list.slice';
 import useAuthToken from '../hooks/useAuthToken';
 import Header from '../components/Header/Header';
 import { Modal } from '../components/Modal/Modal';
@@ -12,7 +12,7 @@ import LoadingSpinner from '../components/LoadingSpinner/LoadingSpinner';
 
 const ItemListContainer = () => {
     const dispatch = useAppDispatch();
-    const { items, loading, error, page, pageSize, totalItems, sortBy, sortOrder } = useAppSelector((state) => state.list);
+    const { items, loading, error, page, pageSize, totalItems, sortBy, sortOrder, itemName } = useAppSelector((state) => state.list);
     const { token } = useAppSelector((state) => state.auth);
     const [isModalOpen, setModalOpen] = useState(false);
     const [currentItem, setCurrentItem] = useState<Item | null>(null);
@@ -23,6 +23,7 @@ const ItemListContainer = () => {
                 page: page,
                 pageSize: pageSize,
                 token: token,
+                itemName
             }));
         }
     }, [page, pageSize, token]);
@@ -70,16 +71,21 @@ const ItemListContainer = () => {
             token: token,
             sortBy: newSortBy,
             sortOrder: newSortOrder,
+            itemName
         }));
     };
 
     // Функция для поиска элементов
     const searchItems = (searchTerm: string) => {
         dispatch(setPage(1)); 
-        dispatch(fetchItemsByName({
-            searchTerm: searchTerm,
-            token: token, 
-        }));
+        dispatch(setSearchTerm(searchTerm));
+        dispatch(fetchItems({
+            warehouseId: '6aac3263-ca1f-4b4e-8973-3a948873d9de',
+            page: page,
+            pageSize: pageSize,
+            token: token,
+            itemName: searchTerm
+        }))
     };
  
     return (
