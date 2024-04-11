@@ -3,7 +3,7 @@ import ItemList from '../components/ItemList/ItemList';
 import Pagination from '../components/Pagination/Pagination';
 import SelectPageSize from '../components/SelectPageSize/SelectPageSize';
 import { useAppDispatch, useAppSelector } from '../app/store';
-import {  fetchItems,  setPage, setPageSize, setSearchTerm, setSortBy, setSortOrder } from '../app/list.slice';
+import {  fetchItems,  fetchItemsByName,  setPage, setPageSize,  setSortBy, setSortOrder } from '../app/list.slice';
 import useAuthToken from '../hooks/useAuthToken';
 import Header from '../components/Header/Header';
 
@@ -39,6 +39,7 @@ const ItemListContainer = () => {
     // Заглушка функции showModalWithItemData, замените на вашу реализацию
     const showModalWithItemData = (itemId: number) => {
         console.log('Showing modal for item:', itemId);
+       console.log(`items`, items);
     };
 
     const openEditModal = (itemId: number) => {
@@ -51,7 +52,7 @@ const ItemListContainer = () => {
     const addNewItem = () => {
         
     };
-    const sortItems = (newSortBy: string) => {
+    const sortItems = (newSortBy: string) => {//посчитал что не нужно возвращаться к 1 странице при сортировке , но иногда добавляют обновление страницы до первой, тут по желанию
         const newSortOrder = sortBy === newSortBy && sortOrder === 'ASC' ? 'DESC' : 'ASC';
         dispatch(setSortBy(newSortBy));
         dispatch(setSortOrder(newSortOrder));
@@ -67,16 +68,10 @@ const ItemListContainer = () => {
 
     // Функция для поиска элементов
     const searchItems = (searchTerm: string) => {
-        dispatch(setSearchTerm(searchTerm));
-        dispatch(setPage(1)); // Возвращаемся к первой странице результатов поиска
-        dispatch(fetchItems({
-            warehouseId: '6aac3263-ca1f-4b4e-8973-3a948873d9de',
-            page: page,
-            pageSize: pageSize,
-            token: token,
-            search: searchTerm,
-            sortBy: sortBy,
-            sortOrder: sortOrder,
+        dispatch(setPage(1)); 
+        dispatch(fetchItemsByName({
+            searchTerm: searchTerm,
+            token: token, 
         }));
     };
 
