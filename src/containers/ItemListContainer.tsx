@@ -3,7 +3,7 @@ import ItemList from '../components/ItemList/ItemList';
 import Pagination from '../components/Pagination/Pagination';
 import SelectPageSize from '../components/SelectPageSize/SelectPageSize';
 import { useAppDispatch, useAppSelector } from '../app/store';
-import { Item, fetchItems, setSearchTerm, setPage, setPageSize,  setSortBy, setSortOrder } from '../app/list.slice';
+import { Item, fetchItems, setSearchTerm, setPage, setPageSize,  setSortBy, setSortOrder, createItem, editItem, ItemData, EditItemData } from '../app/list.slice';
 import useAuthToken from '../hooks/useAuthToken';
 import Header from '../components/Header/Header';
 import { Modal } from '../components/Modal/Modal';
@@ -87,11 +87,44 @@ const ItemListContainer = () => {
             itemName: searchTerm
         }))
     };
- 
+    const handleCreate = (formData: {
+        name: string;
+        measurement_units?: string;
+        code: string;
+        description?: string;
+    }) => {
+        if (token) {
+            const itemData: ItemData = {
+                ...formData,
+                measurement_units: formData.measurement_units || 'шт', 
+                description: formData.description || '', 
+                code: formData.code || '',
+                token: token,
+            };
+            dispatch(createItem(itemData));
+        }
+    };
+
+    const handleEdit = (item: Item) => {
+        if (item.id && token) { 
+            const itemData: EditItemData = {
+                id: item.id,
+                token: token,
+                name: item.name,
+                measurement_units: item.measurement_units || 'шт',
+                code: item.code || '',
+                description: item.description||'', 
+            };
+            dispatch(editItem(itemData));
+        } else {
+            console.error('Item id or token is missing');
+        }
+    };
     return (
         
         <> 
-            <Modal isOpen={isModalOpen} onClose={() => setModalOpen(false)} item={currentItem} />
+            <Modal isOpen={isModalOpen} onClose={() => setModalOpen(false)} item={currentItem} onEdit={handleEdit}
+                onCreate={handleCreate} />
             <LoadingSpinner isLoading={loading}>
             <Header
                 title="Номенклатура"

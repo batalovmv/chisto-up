@@ -3,12 +3,23 @@ import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { getToken, logout } from './auth.slice';
+export interface ItemData {
+    name: string;
+    measurement_units: string;
+    code: string;
+    description: string;
+    token: string;
+}
+
+export interface EditItemData extends ItemData {
+    id: number;
+}
 export interface Item {
     id: number;
-    name: string | null;
-    description?: string | null;
-    measurement_units?: string | null;
-    code?: string | null; 
+    name: string ;
+    description?: string ;
+    measurement_units?: string ;
+    code?: string ; 
 }
 
 interface ItemState {
@@ -77,6 +88,42 @@ export const fetchItems = createAsyncThunk(
     }
 );
 
+export const createItem = createAsyncThunk(
+    'items/createItem',
+    async (itemData: ItemData, { rejectWithValue }) => {
+        try {
+            const { token, ...dataWithoutToken } = itemData;
+            console.log(`Token for authorization:`, token);
+            const response = await axios.post('/api/items', dataWithoutToken, {
+                headers: { Authorization: token },
+            });
+
+            return response.data;
+        } catch (error: any) {
+            return rejectWithValue(error.response?.data?.message || 'Unable to create item');
+        }
+    }
+);
+
+export const editItem = createAsyncThunk(
+    'items/editItem',
+    async (itemData: EditItemData, { rejectWithValue }) => {
+        try {
+            const { token, id, ...dataWithoutTokenAndId } = itemData;
+            console.log(`Token for authorization:`, token);
+            const response = await axios.patch(`/api/items/${id}`, dataWithoutTokenAndId, {
+                headers: { Authorization: token },
+            });
+            return response.data;
+        } catch (error: any) {
+            // It's better to use a more specific error type, like AxiosError from 'axios'
+            return rejectWithValue(error.response?.data?.message || 'Unable to edit item');
+        }
+    }
+);
+
+
+
 const itemSlice = createSlice({
     name: 'items',
     initialState,
@@ -112,6 +159,15 @@ const itemSlice = createSlice({
                 state.loading = false;
                 state.error = action.error.message || 'Unknown error occurred';
             })
+            .addCase(createItem.fulfilled, (state, action) => {
+                state.items.push(action.payload);
+            })
+            .addCase(editItem.fulfilled, (state, action) => {
+                const index = state.items.findIndex(item => item.id === action.payload.id);
+                if (index !== -1) {
+                    state.items[index] = action.payload;
+                }
+            });
             
     },
 });

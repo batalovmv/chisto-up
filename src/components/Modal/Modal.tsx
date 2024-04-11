@@ -5,27 +5,26 @@ type ModalProps = {
     isOpen: boolean;
     onClose: () => void;
     item: Item | null;
+    onCreate: (formData: { name: string; measurement_units: string; code: string; description: string; }) => void; 
+    onEdit: (data: Item) => void;
+};
+type FormData = {
+    name: string;
+    measurement_units: string;
+    code: string;
+    description: string;
 };
 
-export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, item }) => {
-    // If the modal isn't open, don't render anything
+export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, item, onCreate, onEdit }) => {
     if (!isOpen) return null;
-
-    // Define the type for the form data state
-    type FormData = {
-        name: string;
-        measurement_units: string;
-        code: string;
-        description: string; // Added field for description
-    };
-
-    // Initialize form fields state with the item data or empty for a new item
-    const [formData, setFormData] = useState<FormData>({
+    const initialFormData = {
         name: item?.name || '',
         measurement_units: item?.measurement_units || 'шт',
         code: item?.code || '',
-        description: item?.description || '', // Initialize description
-    });
+        description: item?.description || '',
+    };
+
+    const [formData, setFormData] = useState<FormData>(initialFormData);
 
     const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
@@ -36,14 +35,13 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, item }) => {
     };
 
     const handleSubmit = (e: FormEvent) => {
-        e.preventDefault(); // Prevent the default form submit action
-        // Handle form submission for both adding and editing
+        e.preventDefault();
         if (item) {
-            // Edit item logic
+            onEdit({ ...formData, id: item.id }); 
         } else {
-            // Add new item logic
+           onCreate(formData); 
         }
-        onClose(); // Close the modal after submission
+        onClose();
     };
 
     return (
@@ -110,7 +108,7 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, item }) => {
                 </form>
                 <div className={styles.buttonGroup}>
                     <button type="button" onClick={onClose} className={styles.cancelButton}>Отмена</button>
-                    <button type="submit" className={styles.saveButton}>Подтвердить</button>
+                    <button type="submit" onClick={handleSubmit} className={styles.saveButton}>Подтвердить</button>
                 </div>
             </div>
         </div>

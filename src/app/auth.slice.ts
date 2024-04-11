@@ -67,8 +67,8 @@ const authSlice = createSlice({
                 state.token = null; 
             })
             .addCase(logout.fulfilled, (state) => {
-                state.token = null;
-            })
+            state.token = null;
+        })
             
       
     },

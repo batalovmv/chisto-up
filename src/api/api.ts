@@ -2,10 +2,28 @@ import axios from 'axios';
 
 export const API_URL = import.meta.env.VITE_API_URL;
 
-export const $api = axios.create({
-    withCredentials: true,
-    headers:{
-        'Accept':'application/json'
-    },
+
+// Создание экземпляра axios с базовыми настройками
+const api = axios.create({
     baseURL: API_URL,
+    // Другие глобальные настройки, если они вам нужны
 });
+
+// Добавление интерцептора запроса
+api.interceptors.request.use(
+    (config) => {
+        // Пытаемся получить токен из localStorage
+        const token = localStorage.getItem('auth_token');
+        if (token) {
+            // Если токен существует, добавляем его в заголовок 'Authorization'
+            config.headers['Authorization'] = `Bearer ${token}`;
+        }
+        return config;
+    },
+    (error) => {
+        // Пробрасываем ошибку, если что-то пошло не так при установке заголовка
+        return Promise.reject(error);
+    }
+);
+
+export default api;
