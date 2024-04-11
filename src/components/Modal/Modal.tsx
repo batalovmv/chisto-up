@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import styles from './Modal.module.scss';
 import { Item } from "../../types";
 import exitSvg from '../../assets/exit.svg';
@@ -27,7 +27,13 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, item, onCreate, o
     };
 
     const [formData, setFormData] = useState<FormData>(initialFormData);
+    const [isFormValid, setIsFormValid] = useState<boolean>(false);
 
+    useEffect(() => {
+        // Функция проверки валидности всех полей формы
+        const isValid = Object.values(formData).every(value => value.trim() !== '');
+        setIsFormValid(isValid);
+    }, [formData]);
     const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
         setFormData(prevFormData => ({
@@ -115,7 +121,15 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, item, onCreate, o
                 </form>
                 <div className={styles.buttonGroup}>
                     <button type="button" onClick={onClose} className={styles.cancelButton}>Отмена</button>
-                    <button type="submit" onClick={handleSubmit} className={styles.saveButton}>Подтвердить</button>
+                        <button
+                            type="submit"
+                            disabled={!isFormValid}
+                            onClick={handleSubmit}
+                            className={isFormValid ? styles.saveButton : styles.disabledSaveButton}
+                        >
+                            Подтвердить
+                        </button>
+                        
                 </div>
             </div>
         </div>

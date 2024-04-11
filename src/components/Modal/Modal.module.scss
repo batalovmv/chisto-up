@@ -47,10 +47,11 @@
         justify-content: space-between;
     h2{
         font-family: 'Inter', sans-serif;
-            font-size: 13px;
+            font-size: 16px;
             line-height: 22px;
             font-weight: 600;
             letter-spacing: -0.18px;
+            margin-top: 0;
     }
     span{
         
@@ -84,12 +85,14 @@
 }
 
 .homeButton {
-    background: transparent;
     border: none;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
+    background-color: #FAF4F4;
+    width: 48px;
+    height: 48px;
 }
 
 
@@ -157,9 +160,29 @@
         letter-spacing: -0.05px;
         color: #fff;
 }
+.disabledSaveButton{
+    flex-basis: 49%;
+        font-family: 'Inter', sans-serif;
+        font-size: 14px;
+        line-height: 20px;
+        font-weight: 475;
+        letter-spacing: -0.05px;
+        color: #fff;
+        cursor: default;
+        background-color: #D3A6A6;
+}
 .cancelButton{
     background-color: #514A4A;
 }
 .saveButton{
     background-color: #A85757;
+}
+.inputError {
+    border-color: red;
+}
+
+.errorText {
+    color: red;
+    font-size: 0.8rem;
+    margin-top: 5px;
 }
