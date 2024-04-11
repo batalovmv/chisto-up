@@ -7,6 +7,7 @@ import {  Item, fetchItems,  fetchItemsByName,  setPage, setPageSize,  setSortBy
 import useAuthToken from '../hooks/useAuthToken';
 import Header from '../components/Header/Header';
 import { Modal } from '../components/Modal/Modal';
+import LoadingSpinner from '../components/LoadingSpinner/LoadingSpinner';
 
 
 const ItemListContainer = () => {
@@ -52,7 +53,7 @@ const ItemListContainer = () => {
     };
     const totalPages = Math.ceil(totalItems / pageSize);
 
-    if (loading) return <div>Loading...</div>;
+   
 
     const addNewItem = () => {
         setCurrentItem(null); 
@@ -80,24 +81,27 @@ const ItemListContainer = () => {
             token: token, 
         }));
     };
-
+ 
     return (
         
-        <div> 
+        <> 
             <Modal isOpen={isModalOpen} onClose={() => setModalOpen(false)} item={currentItem} />
+            <LoadingSpinner isLoading={loading}>
             <Header
                 title="Номенклатура"
                 itemCount={totalItems}
                 onSearch={searchItems}
                 onAddNewItem={addNewItem}
             />
-            <ItemList
-                items={items}
-                onEdit={openEditModal}
-                onSort={sortItems}
-                sortBy={sortBy}
-                sortOrder={sortOrder}
-            />
+           
+                <ItemList
+                    items={items}
+                    onEdit={openEditModal}
+                    onSort={sortItems}
+                    sortBy={sortBy}
+                    sortOrder={sortOrder}
+                />
+           
             <div>
                 <Pagination
                     currentPage={page}
@@ -110,7 +114,8 @@ const ItemListContainer = () => {
                             onSelect={handlePageSizeChange}
                         />
             </div>
-        </div>
+            </LoadingSpinner>
+        </>
     );
 };
 

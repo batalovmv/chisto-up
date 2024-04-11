@@ -1,5 +1,6 @@
 .itemList {
     width: 100%;
+    overflow-y: auto; 
     color: #352424;
     margin-left: 12px;
     font-family: 'Inter', sans-serif;
@@ -7,6 +8,8 @@
     line-height: 20px;
     font-weight: 400;
     letter-spacing: -0.01px;
+    flex-grow: 1;
+    
 
     table {
         width: 100%;
